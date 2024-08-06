@@ -1,9 +1,9 @@
-import { NextResponse, NextRequest } from "next/server";
-import { headers } from "next/headers";
-import Stripe from "stripe";
-import { SupabaseClient } from "@supabase/supabase-js";
 import configFile from "@/config";
 import { findCheckoutSession } from "@/libs/stripe";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-08-16",
@@ -54,9 +54,41 @@ export async function POST(req: NextRequest) {
         const userId = stripeObject.client_reference_id;
         const plan = configFile.stripe.plans.find((p) => p.priceId === priceId);
 
+        const customer = (await stripe.customers.retrieve(
+          customerId as string
+        )) as Stripe.Customer;
+
         if (!plan) break;
 
-        // Update the profile where id equals the userId (in table called 'profiles') and update the customer_id, price_id, and has_access (provisioning)
+        let user;
+        if (!userId) {
+          // check if user already exists
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("email", customer.email)
+            .single();
+          if (profile) {
+            user = profile;
+          } else {
+            // create a new user using supabase auth admin
+            const { data } = await supabase.auth.admin.createUser({
+              email: customer.email,
+            });
+
+            user = data?.user;
+          }
+        } else {
+          // find user by ID
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", userId)
+            .single();
+
+          user = profile;
+        }
+
         await supabase
           .from("profiles")
           .update({
@@ -64,7 +96,7 @@ export async function POST(req: NextRequest) {
             price_id: priceId,
             has_access: true,
           })
-          .eq("id", userId);
+          .eq("id", user?.id);
 
         // Extra: send email with user link, product page, etc...
         // try {
