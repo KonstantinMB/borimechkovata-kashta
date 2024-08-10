@@ -22,8 +22,27 @@ const Hero = () => {
         </a>
 
         <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4">
-          Ship your startup in days, not weeks
+          <span className="text-yellow-500">Translate</span> and caption&nbsp;
+          <span className="relative whitespace-nowrap leading-relaxed">
+            <span className="absolute bg-yellow-500 -left-1 -top-1 -bottom-1 -right-1 md:-left-1 md:-top-0 md:-bottom-0 md:-right-1 -rotate-1"></span>
+            <span className="relative text-neutral-content inline-flex flex-col h-[calc(theme(fontSize.3xl)*theme(lineHeight.tight))] lg:h-[calc(theme(fontSize.6xl)*theme(lineHeight.tight))] overflow-hidden">
+              <ul className="block animate-text-slide-8 text-center lg:text-left leading-tight [&_li]:block text-white">
+                <li>YouTube</li>
+                <li>Twitter/X</li>
+                <li>Videos</li>
+                <li>TV Shows</li>
+                <li>Podcasts</li>
+                <li>Anime</li>
+                <li>Interviews</li>
+                <li>Lectures</li>
+                <li aria-hidden="true">YouTube</li>
+              </ul>
+            </span>
+          </span> to any language
+          <span className="text-yellow-500">in seconds</span>
         </h1>
+
+
         <p className="text-lg opacity-80 leading-relaxed">
           The NextJS boilerplate with all you need to build your SaaS, AI tool,
           or any other web app. From idea to production in 5 minutes.

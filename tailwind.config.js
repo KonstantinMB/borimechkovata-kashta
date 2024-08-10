@@ -11,12 +11,14 @@ module.exports = {
         gradient:
           "linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82)",
       },
+      
       animation: {
         opacity: "opacity 0.25s ease-in-out",
-        appearFromRight: "appearFromRight 300ms ease-in-out",
+        appearFromRight: "appearFromRight 2s ease-in-out",
         wiggle: "wiggle 1.5s ease-in-out infinite",
         popup: "popup 0.25s ease-in-out",
         shimmer: "shimmer 3s ease-out infinite alternate",
+        'text-slide-8': 'text-slide 20s linear infinite', // 20 seconds for a smooth, continuous loop
       },
       keyframes: {
         opacity: {
@@ -53,6 +55,17 @@ module.exports = {
           "0%": { backgroundPosition: "0 50%" },
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
+        },
+        'text-slide': {
+          '0%, 10%': { transform: 'translateY(0%)' },               // First item
+          '12.5%, 22.5%': { transform: 'translateY(-11.11%)' },    // Second item
+          '25%, 35%': { transform: 'translateY(-22.22%)' },        // Third item
+          '37.5%, 47.5%': { transform: 'translateY(-33.33%)' },    // Fourth item
+          '50%, 60%': { transform: 'translateY(-44.44%)' },        // Fifth item
+          '62.5%, 72.5%': { transform: 'translateY(-55.55%)' },    // Sixth item
+          '75%, 85%': { transform: 'translateY(-66.66%)' },        // Seventh item
+          '87.5%, 97.5%': { transform: 'translateY(-77.77%)' },    // Eighth item
+          '100%': { transform: 'translateY(-88.88%)' },            // Loop back
         },
       },
     },
